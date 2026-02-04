@@ -1,0 +1,7 @@
+# Environment variables
+venv/
+.env
+plan.txt
+
+# VSCode settings (optional)
+.vscode/
