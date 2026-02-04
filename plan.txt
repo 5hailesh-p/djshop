@@ -1,0 +1,62 @@
+ecommerce/
+│
+├── config/                 # Project settings
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings/
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── dev.py
+│   │   ├── prod.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── apps/
+│   ├── accounts/
+│   ├── products/
+│   ├── cart/
+│   ├── orders/
+│   ├── payments/
+│   ├── reviews/
+│   └── core/
+│
+├── templates/
+│   ├── base.html
+│   ├── includes/
+│   └── pages/
+│
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+├── media/                  # Product images
+│
+├── manage.py
+├── requirements.txt
+├── .env
+└── README.md
+
+
+
+
+
+products/
+├── admin.py
+├── apps.py
+├── models/
+│   ├── __init__.py
+│   ├── category.py
+│   ├── product.py
+│   ├── variation.py
+│
+├── views/
+│   ├── __init__.py
+│   ├── product_list.py
+│   ├── product_detail.py
+│
+├── urls.py
+├── serializers.py   # if using API later
+├── services.py      # business logic
+├── tests/
+└── migrations/
