@@ -1,9 +1,12 @@
 from django.contrib import admin
-from .models import siteSettings,contact
+from .models import siteSettings,contact,product
 # Register your models here.
 
 admin.site.register(siteSettings)
 admin.site.register(contact)
+
+admin.site.register(product)
+
 
 class SiteSettingsAdmin(admin.ModelAdmin):
 

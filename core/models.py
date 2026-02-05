@@ -27,3 +27,14 @@ class contact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class product(models.Model):
+    product_name = models.CharField(max_length=254)
+    product_desc = models.TextField()
+    product_cat = models.CharField(max_length=100)
+    price = models.IntegerField()
+    product_img  = models.ImageField(upload_to='product/img/')
+
+    def __str__(self):
+        return self.product_name
