@@ -6,7 +6,8 @@ from .models import product
 def home(request):
 
     context = {
-        'products' : product.objects.filter(product_cat__in=['vehicel','accessories']),
+        # 'products' : product.objects.filter(product_cat__in=['vehicel','accessories']),
+        'products' : product.objects.all(),
     }
 
     return render(request, 'index.html', context)
