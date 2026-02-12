@@ -26,19 +26,22 @@ def sign_up(request):
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
 
-        # if pass1 == pass2:
+        if pass1 != pass2:
+          return  messages.error(request, "password not match ")
+            
+        else:
+            # print(email, full_name)
 
-        print(email, full_name)
+            new_user = User.objects.create_user(username=email,email=email, password=pass1)
+            
+            new_user.first_name = full_name
 
-        new_user = User.objects.create_user(email,pass1)
-        new_user.username = email
-        new_user.first_name = full_name
-
-        new_user.save()
-        messages.success(request, "your account is created ")
-        redirect('auth/signin')
-
-    return render(request,'auth/signup.html' )
+            new_user.save()
+            messages.success(request, "your account is created ")
+            return redirect('/auth/signin')
+    else:
+        messages.error(request, "Some error occured ")
+        return render(request,'auth/signup.html' )
 
 
 def dash(request):
