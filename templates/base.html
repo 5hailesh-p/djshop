@@ -41,16 +41,20 @@
 
 <body class="bg-effect overflow-x-hidden" style="overflow-x: hidden;">
 
-    {% for message in messages%}
-        <div class="toast align-items-center text-white bg-{{message.tags}} border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-            {{ message }}
+      {% if messages %}
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        {% for message in messages %}
+            <div class="toast align-items-center text-white bg-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} border-0"  role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+            <div class="d-flex">
+                <div class="toast-body">
+                {{ message }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        {% endfor%}
         </div>
-        </div>
-    {% endfor%}
+     {% endif %}
 
     <!-- Loader Start -->
     <div class="fullpage-loader">
@@ -312,6 +316,14 @@
 
                                         <div class="onhover-div onhover-div-login">
                                             <ul class="user-box-name">
+                                                {% if user.is_authenticated %}
+                                                <li class="product-box-contain">
+                                                    <a href="#">{{fname}}</a>
+                                                </li>
+                                                <li class="product-box-contain">
+                                                    <a href="{% url "signout" %}">Logout</a>
+                                                </li>
+                                                {% else %}
                                                 <li class="product-box-contain">
                                                     <i></i>
                                                     <a href="{% url "signin" %}">Log In</a>
@@ -320,10 +332,7 @@
                                                 <li class="product-box-contain">
                                                     <a href="{% url "signup" %}">Register</a>
                                                 </li>
-
-                                                <li class="product-box-contain">
-                                                    <a href="forgot.html">Forgot Password</a>
-                                                </li>
+                                                {% endif %}
                                             </ul>
                                         </div>
                                     </li>
@@ -1901,6 +1910,21 @@
 
     <!-- theme setting js -->
     <script src="{% static ''%}js/theme-setting.js"></script>
+
+
+    {% comment %} script for toast {% endcomment %}
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    toastElList.forEach(function (toastEl) {
+        var toast = new bootstrap.Toast(toastEl, {
+            delay: 3000
+        })
+        toast.show()
+    })
+})
+</script>
+
 </body>
 
 

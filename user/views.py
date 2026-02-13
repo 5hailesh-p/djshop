@@ -11,9 +11,11 @@ def sign_in(request):
         pass1 = request.POST['pass1']
 
         user = authenticate(username= email, password= pass1)
-
         if user is not None:
             login(request, user)
+            fname = user.first_name
+            messages.success(request, "Logged in Successfully ")
+            return render(request,'index.html',{'fname':fname})
         else:
             messages.error('bad credentials ')
 
@@ -26,12 +28,14 @@ def sign_up(request):
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
 
+        
         if pass1 != pass2:
-          return  messages.error(request, "password not match ")
-            
+           messages.warning(request, "password not match")
+           return redirect('/auth/signup')
+        elif User.objects.filter(email=email) :
+            messages.error(request, "Email Already Exist")
+            return redirect('/auth/signup')
         else:
-            # print(email, full_name)
-
             new_user = User.objects.create_user(username=email,email=email, password=pass1)
             
             new_user.first_name = full_name
@@ -40,7 +44,6 @@ def sign_up(request):
             messages.success(request, "your account is created ")
             return redirect('/auth/signin')
     else:
-        messages.error(request, "Some error occured ")
         return render(request,'auth/signup.html' )
 
 
@@ -48,4 +51,6 @@ def dash(request):
     return render(request,'index.html')
 
 def sign_out(request):
-    return render(request,'index.html')
+    logout(request)
+    messages.success(request,"Logged Out")
+    return redirect('/auth/signin')
