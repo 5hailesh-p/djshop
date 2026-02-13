@@ -5,6 +5,8 @@ from django.contrib import messages
 # Create your views here.
 
 def sign_in(request):
+    if request.user.is_authenticated:
+        return redirect('/')
 
     if request.method == 'POST':
         email = request.POST['username']
@@ -15,11 +17,12 @@ def sign_in(request):
             login(request, user)
             fname = user.first_name
             messages.success(request, "Logged in Successfully ")
-            return render(request,'index.html',{'fname':fname})
+            # return render(request,'index.html',{'fname':fname})
+            return redirect('/')
         else:
             messages.error('bad credentials ')
-
-    return render(request,'auth/signin.html')
+    else:
+        return render(request,'auth/signin.html')
 
 def sign_up(request):
     if request.method == 'POST':

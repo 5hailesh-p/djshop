@@ -133,4 +133,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
- 
+# log urls 
+LOGIN_URL = 'auth/signin'              # name of your login url
+LOGIN_REDIRECT_URL = ''      # where to go after login
+LOGOUT_REDIRECT_URL = 'auth/signin'    # where to go after logout
