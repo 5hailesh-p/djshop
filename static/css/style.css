@@ -28645,7 +28645,7 @@ header .navbar.navbar-expand-xl .navbar-nav .nav-link {
     position: relative
 }
 
-header .navbar.navbar-expand-xl .navbar-nav .nav-link::before {
+header .navbar.navbar-expand-xl .navbar-nav .dropdown-toggle::before {
     content: "";
     position: absolute;
     font-family: "Font Awesome 6 Free";
@@ -28656,7 +28656,7 @@ header .navbar.navbar-expand-xl .navbar-nav .nav-link::before {
     transform: translateY(-50%)
 }
 
-[dir=rtl] header .navbar.navbar-expand-xl .navbar-nav .nav-link::before {
+[dir=rtl] header .navbar.navbar-expand-xl .navbar-nav .dropdown-toggle::before {
     right: unset;
     left: -12px
 }
