@@ -14,10 +14,8 @@ def sign_in(request):
 
         user = authenticate(username= email, password= pass1)
         if user is not None:
-            login(request, user)
-            fname = user.first_name
-            messages.success(request, "Logged in Successfully ")
-            # return render(request,'index.html',{'fname':fname})
+            login(request, user) 
+            messages.success(request, "Logged in Successfully ") 
             return redirect('/')
         else:
             messages.error('bad credentials ')

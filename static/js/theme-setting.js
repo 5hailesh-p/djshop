@@ -17,7 +17,7 @@ $("#darkButton").on("click", function () {
     $("body").addClass("dark");
     document
         .getElementById("color-link")
-        .setAttribute("href", "../assets/css/dark.css");
+        .setAttribute("href", "/static/css/dark.css");
 });
 
 $("#lightButton").on("click", function () {
@@ -26,23 +26,23 @@ $("#lightButton").on("click", function () {
     $("body").addClass("light");
     document
         .getElementById("color-link")
-        .setAttribute("href", "../assets/css/style.css");
+        .setAttribute("href", "/static/css/style.css");
     console
 });
 
 /*========================
    RTL setting js
    ==========================*/
-$(".rtl").on("click", function () {
-    if ($("body").hasClass("ltr")) {
-        $("html").attr("dir", "rtl");
-        $("body").removeClass("ltr");
-        $("body").addClass("rtl");
-        $("#rtl-link").attr("href", "../assets/css/vendors/bootstrap.rtl.css");
-    } else {
-        $("html").attr("dir", "");
-        $("body").removeClass("rtl");
-        $("body").addClass("ltr");
-        $("#rtl-link").attr("href", "../assets/css/vendors/bootstrap.css");
-    }
-});
+// $(".rtl").on("click", function () {
+//     if ($("body").hasClass("ltr")) {
+//         $("html").attr("dir", "rtl");
+//         $("body").removeClass("ltr");
+//         $("body").addClass("rtl");
+//         $("#rtl-link").attr("href", "../assets/css/vendors/bootstrap.rtl.css");
+//     } else {
+//         $("html").attr("dir", "");
+//         $("body").removeClass("rtl");
+//         $("body").addClass("ltr");
+//         $("#rtl-link").attr("href", "../assets/css/vendors/bootstrap.css");
+//     }
+// });
