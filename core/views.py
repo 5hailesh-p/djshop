@@ -1,5 +1,5 @@
 from django.shortcuts import render 
-from .models import product
+from .models import Product
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -9,8 +9,8 @@ def home(request):
     if request.user.is_authenticated:
         fname =  request.user.first_name
     context = {
-        # 'products' : product.objects.filter(product_cat__in=['vehicel','accessories']),
-        'products' : product.objects.all(),
+        # 'products' : Product.objects.filter(product_cat__in=['vehicel','accessories']),
+        'products' : Product.objects.all(),
         'fname' : fname,
     }
 

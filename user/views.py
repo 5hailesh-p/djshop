@@ -18,7 +18,8 @@ def sign_in(request):
             messages.success(request, "Logged in Successfully ") 
             return redirect('/')
         else:
-            messages.error('bad credentials ')
+            messages.error(request,'bad credentials ')
+            return redirect("signin")
     else:
         return render(request,'auth/signin.html')
 
