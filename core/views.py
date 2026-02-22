@@ -18,13 +18,19 @@ def home(request):
 
 @login_required
 def cart(request):
-    
+    if request.user.is_authenticated:
+        fname =  request.user.first_name
     carts = Cart.objects.filter(user=request.user)
     for cart in carts:
         cart.total_price = cart.item.price * cart.quantity
  
-    return render(request, 'cart.html',{'carts':carts})
+    return render(request, 'cart.html',{'carts':carts,'fname':fname})
 
 def add_to_cart(request):
+    # if request.method=='POST':
+        # product_id= request.POST.get('')
+    return render(request, 'cart.html')
+
+def remove_from_cart(request):
 
     return render(request, 'cart.html')
