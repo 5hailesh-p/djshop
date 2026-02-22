@@ -50,7 +50,7 @@ def sign_up(request):
 
 
 def dash(request):
-    return render(request,'index.html')
+    return redirect('home')
 
 def sign_out(request):
     logout(request)
