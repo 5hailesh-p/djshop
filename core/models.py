@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from .info import PRODUCT_CATAEGORY
+from datetime import datetime
 # Create your models here.
 class siteSettings(models.Model):
      
@@ -56,14 +57,14 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
-        return self.product_name
+        return str(self.id)
 
 
 class Cart(models.Model):
     user = models.ForeignKey(User,  related_name="cart_user", on_delete=models.CASCADE)
     item = models.ForeignKey(Product, on_delete=models.CASCADE)  
     quantity = models.IntegerField(default=1) 
-    created_at = models.DateTimeField(auto_now_add=True,null=True)
+    created_at = models.DateTimeField(null=True ,default=datetime.now())
 
     def __str__(self):
-        return f"{self.item.product_name} x {self.quantity}"
+        return  str(self.item.id )

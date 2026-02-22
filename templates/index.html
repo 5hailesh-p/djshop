@@ -525,26 +525,32 @@
                                                         </div>
     
                                                         <div class="add-to-cart-box ">
+                                                            
                                                             <button class="btn btn-add-cart addcart-button {% if product.product_quantity <= 0 %}disabled{% endif %}">Add
                                                                 <span class="add-icon">
                                                                     <i class="fa-solid fa-plus"></i>
                                                                 </span>
-                                                            </button>
-                                                            <div class="cart_qty qty-box">
-                                                                <div class="input-group">
-                                                                    <button type="button" class="qty-left-minus"
-                                                                        data-type="minus" data-field="">
-                                                                        <i class="fa fa-minus"></i>
-                                                                    </button>
-                                                                    <input class="form-control input-number qty-input"
-                                                                        type="text" name="quantity" value="0">
-                                                                    <button type="button" class="qty-right-plus"
-                                                                        data-type="plus" data-field="">
-                                                                        <i class="fa fa-plus"></i>
-                                                                    </button>
-                                                                </div>
+                                                            </button>  
+                                                                <div class="cart_qty qty-box open">
+                                                                   <div class="input-group">
+                                                                       <button type="button" class="qty-left-minus"
+                                                                           data-type="minus" data-field="">
+                                                                           <i class="fa fa-minus"></i>
+                                                                       </button>
+                                                                       <input class="form-control input-number qty-input"
+                                                                           type="text" name="quantity" value="1">
+                                                                       <button type="button" class="qty-right-plus"
+                                                                           data-type="plus" data-field="">
+                                                                           <i class="fa fa-plus"></i>
+                                                                       </button>
+                                                                     
+                                                                   </div>
+                                                                </div> 
                                                             </div>
-                                                        </div>
+                                                            <button class="btn btn-theme-outline w-100 btn-sm add-to-cart-btn   {% if product.product_quantity <= 0 %}disabled{% endif %}" data-product-id="{{product.id}}">Add
+                                                                 to Cart
+                                                                    <i class="fa-solid fa ms-2 fa-cart-plus"></i>
+                                                            </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -553,7 +559,7 @@
                                 
                                     {% endfor %}
                                 {% endif %}
-
+{% csrf_token %}
                                 {% comment %} <div>
                                     <div class="row m-0">
                                         <div class="col-12 px-0">
@@ -1844,3 +1850,67 @@
     <!-- Newsletter Section End -->
 
 {% endblock body %}
+
+{% block js %}
+<script>
+     /**=====================
+     Quantity 2 js
+==========================**/
+ $(".addcart-button").click(function () {
+     $(this).next().addClass("open");
+     $(".add-to-cart-box .qty-input").val('1');
+ });
+
+ $('.add-to-cart-box').on('click', function () {
+     var $qty = $(this).siblings(".qty-input");
+     var currentVal = parseInt($qty.val());
+     if (!isNaN(currentVal)) {
+         $qty.val(currentVal + 1);
+     }
+ });
+
+ $('.qty-left-minus').on('click', function () {
+     var $qty = $(this).siblings(".qty-input");
+     var _val = $($qty).val();
+     if (_val == '1') {
+         var _removeCls = $(this).parents('.cart_qty');
+         $(_removeCls).removeClass("open");
+     }
+     var currentVal = parseInt($qty.val());
+     if (!isNaN(currentVal) && currentVal > 0) {
+         $qty.val(currentVal - 1);
+     } 
+ });
+
+ $('.qty-right-plus').click(function () {
+     if ($(this).prev().val() < 9) {
+         $(this).prev().val(+$(this).prev().val() + 1); 
+     } 
+ });
+</script>
+
+
+<script>
+$(document).on('click','.add-to-cart-btn',function(){
+    let product_id = $(this).data('product-id');
+    let csrf =  $('input[name="csrfmiddlewaretoken"]').val()
+    $.ajax({
+        url:"{% url 'add_to_cart' %}",
+        type:'POST',
+        headers:{"X-CSRFToken": csrf},
+        data:{
+            product_id:product_id,
+        },
+        success: function(response){
+            if(response.success){
+                alert("added to cart")
+            }
+        },
+        error:function(){
+            alert('some went wrong ')
+        }
+
+    });
+});
+</script>
+{% endblock js %}

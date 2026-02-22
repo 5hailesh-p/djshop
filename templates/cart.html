@@ -100,7 +100,7 @@
                                             <td class="save-remove">
                                                 <h4 class="table-title text-content">Action</h4>
                                                 <a class="save notifi-wishlist" href="javascript:void(0)">Save for later</a>
-                                                <a class="remove close_button" href="javascript:void(0)">Remove</a>
+                                                <a class="remove close_button" href="{% url 'remove_from_cart' cart.item.id %}">Remove</a>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -147,7 +147,7 @@
 
                                 <li class="align-items-start">
                                     <h4>Shipping</h4>
-                                    <h4 class="price text-end" > {{site_settings.currency}}  <span id="shipping">100</span></h4>
+                                    <h4 class="price text-end" > {{site_settings.currency}}  <span id="shipping">0</span></h4>
                                 </li>
                             </ul>
                         </div>
@@ -186,45 +186,54 @@
 {% block js %}
 
 <script>
- $(document).ready(()=>{
-     cartTotal();
+$(document).ready(function () {
 
- });
-    $(document).on('click', '.qty-btn', function () {
- 
-    // Find closest wrapper (doesn’t care what HTML is)
-    let container = $(this).closest('.product-box-contain');
+    $('.product-box-contain').each(function () {
+        updateRow($(this));
+    });
+
+    cartTotal();
+});
+
+
+ function updateRow(container) {
+
     let input = container.find('.qty-input');
 
-    // Get quantity
     let qty = parseInt(input.val()) || 0;
-
-    // Min and max from input
     let min = parseInt(input.attr('min')) || 1;
     let max = parseInt(input.attr('max')) || 9;
 
-    // Check action
-    let action = $(this).data('action');
+    if (qty < min) qty = min;
+    if (qty > max) qty = max;
 
-    if (action === 'plus' && qty < max) qty++;
-    if (action === 'minus' && qty > min) qty--;
-
-    // Set updated qty
     input.val(qty);
 
-    // Update total if price exists
     let price = parseFloat(container.data('price'));
     if (!isNaN(price)) {
         let total = price * qty;
         container.find('.total-value').text(total);
     }
+}
+$(document).on('click', '.qty-btn', function () {
 
-    // Optional: trigger a custom event
-   // container.trigger('quantityChanged', [qty]);
-   cartTotal();
+    let container = $(this).closest('.product-box-contain');
+    let input = container.find('.qty-input');
+    let qty = parseInt(input.val()) || 0;
+
+    let min = parseInt(input.attr('min')) || 1;
+    let max = parseInt(input.attr('max')) || 9;
+
+    let action = $(this).data('action');
+
+    if (action === 'plus' && qty < max) qty++;
+    if (action === 'minus' && qty > min) qty--;
+
+    input.val(qty);
+
+    updateRow(container);
+    cartTotal();
 });
-
-
 
 function cartTotal() {
     let cartTotal = 0;
