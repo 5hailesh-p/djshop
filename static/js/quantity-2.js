@@ -24,11 +24,11 @@
      var currentVal = parseInt($qty.val());
      if (!isNaN(currentVal) && currentVal > 0) {
          $qty.val(currentVal - 1);
-     }
+     } 
  });
 
  $('.qty-right-plus').click(function () {
      if ($(this).prev().val() < 9) {
-         $(this).prev().val(+$(this).prev().val() + 1);
-     }
+         $(this).prev().val(+$(this).prev().val() + 1); 
+     } 
  });

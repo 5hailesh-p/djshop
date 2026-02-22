@@ -1,23 +1,4 @@
 {% extends "base.html" %}
-{% comment %} {% extends 'base.html' %}
-{% block title %}
-  products
-{% endblock %}
-
-{% block body %}
-  <div class="row mx-0">
-    {% for product in products %}
-      <div class="col-md-3 col-6">
-        <img src="{{ product.product_img.url }}" class="img-fluid" alt="" />
-        <div class="">{{ product.product_name }}</div>
-        <div class="">{{ product.price }}</div>
-        <div class="">{{ product.product_cat }}</div>
-        <div class="">{{ product.product_desc }}</div>
-      </div>
-    {% endfor %}
-  </div>
-{% endblock %} {% endcomment %}
-
 {% load static %}
 {% block title %}Home {% endblock title %}
 {% block body %}

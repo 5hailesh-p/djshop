@@ -1,5 +1,5 @@
 from django.shortcuts import render 
-from .models import Product
+from .models import Product,Cart
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -15,3 +15,16 @@ def home(request):
     }
 
     return render(request, 'index.html', context)
+
+@login_required
+def cart(request):
+    
+    carts = Cart.objects.filter(user=request.user)
+    for cart in carts:
+        cart.total_price = cart.item.price * cart.quantity
+ 
+    return render(request, 'cart.html',{'carts':carts})
+
+def add_to_cart(request):
+
+    return render(request, 'cart.html')

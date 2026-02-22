@@ -296,7 +296,7 @@
                                                 </div>
 
                                                 <div class="button-group">
-                                                    <a href="cart.html" class="btn btn-sm cart-button">View Cart</a>
+                                                    <a href="{% url 'cart' %}" class="btn btn-sm cart-button">View Cart</a>
                                                     <a href="checkout.html" class="btn btn-sm cart-button theme-bg-color
                                                     text-white">Checkout</a>
                                                 </div>
@@ -927,7 +927,7 @@
                                                         <a class="dropdown-item" href="about-us.html">About Us</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="cart.html">Cart</a>
+                                                        <a class="dropdown-item" href="{% url 'cart' %}">Cart</a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item" href="contact-us.html">Contact</a>
@@ -1048,7 +1048,7 @@
             </li>
 
             <li>
-                <a href="cart.html">
+                <a href="{% url 'cart' %}">
                     <i class="iconly-Bag-2 icli fly-cate"></i>
                     <span>Cart</span>
                 </a>
@@ -1294,6 +1294,7 @@
                             </a>
                         </li>
                         <li>
+                        <li>
                             <a href="https://www.instagram.com/" target="_blank">
                                 <i class="fa-brands fa-instagram"></i>
                             </a>
@@ -1398,7 +1399,7 @@
                                 </div>
 
                                 <div class="modal-button">
-                                    <button onclick="location.href = 'cart.html';"
+                                    <button onclick="location.href = '{% url 'cart' %}';"
                                         class="btn btn-md add-cart-button icon">Add
                                         To Cart</button>
                                     <button onclick="location.href = 'product-left.html';"
@@ -1705,7 +1706,7 @@
     <script src="{% static ''%}js/fly-cart.js"></script>
 
     <!-- Quantity js -->
-    <script src="{% static ''%}js/quantity-2.js"></script>
+    {% comment %} <script src="{% static ''%}js/quantity-2.js"></script> {% endcomment %}
 
     <!-- WOW js -->
     <script src="{% static ''%}js/wow.min.js"></script>
@@ -1719,7 +1720,7 @@
 
 
     {% comment %} script for toast {% endcomment %}
-    <script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))
     toastElList.forEach(function (toastEl) {
@@ -1730,7 +1731,9 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 })
 </script>
+{% block js %}
 
+{% endblock js %}
 </body>
 
 
