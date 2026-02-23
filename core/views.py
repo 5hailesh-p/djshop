@@ -56,3 +56,12 @@ def remove_from_cart(request,prod_id):
    if cart_item:
     cart_item.delete();
     return redirect('cart')
+   
+
+def contact(request): 
+    return render(request, 'contact.html')
+
+
+
+def custom_404(request, exception):
+    return render(request, '404.html',status=404)
