@@ -80,154 +80,7 @@
     </section>
     <!-- Breadcrumb Section End -->
 
-    <!-- Cart Section Start -->
-    <section class="cart-section section-b-space">
-        <div class="container-fluid-lg">
-            <div class="row g-sm-5 g-3">
-                <div class="col-xxl-9">
-                    <div class="cart-table">
-                        <div class="table-responsive-xl">
-                            <table class="table">
-                                <tbody>
-                                    {% if orders%}
-                                        {% for order in orders %}
-                                        <tr class="product-box-contain "  data-price="{{order.item.price}}">
-                                            <td class="product-detail">
-                                                <div class="product border-0">
-                                                    <a href="#" class="product-image">
-                                                        <img src="{{order.item.product_img.url}}"
-                                                            class="img-fluid blur-up lazyload" alt="">
-                                                    </a>
-                                                    <div class="product-detail">
-                                                        <ul>
-                                                            <li class="name">
-                                                                <a href="#">{{order.item.product_name}}</a>
-                                                            </li>
 
-                                                            <li class="text-content"><span class="text-title">Sold
-                                                                    By:</span> Fresho</li>
-
-                                                            <li class="text-content"><span class="text-title">Quantity</span> {{order.quantity}}</li>
-
-                                                            
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td class="price">
-                                                <h4 class="table-title text-content">Price</h4>
-                                                <h5> {{ site_settings.currency  }}  {{order.item.price}} <del class="text-content">{{ site_settings.currency  }}  {{order.item.price |add:20}}</del></h5>
-                                                <h6 class="theme-color">You Save : {{ site_settings.currency  }}  {{20}}</h6>
-                                            </td>
-
-                                            <td class="quantity">
-                                                <h4 class="table-title text-content">Qty</h4>
-                                                <div class="quantity-price">
-                                                    <div class="cart_qty">
-                                                        <div class="input-group">
-                                                            <button type="button" class="btn qty-btn qty-left-minus"
-                                                                data-type="minus" data-field="" data-action="minus">
-                                                                <i class="fa fa-minus ms-0"></i>
-                                                            </button>
-                                                            <input class="form-control input-number qty-input" type="text"
-                                                                name="quantity" value="{{order.quantity}}" min="1" max="9">
-                                                            <button type="button" class="btn qty-btn qty-right-plus"
-                                                                data-type="plus" data-field="" data-action="plus">
-                                                                <i class="fa fa-plus ms-0"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td class="subtotal">
-                                                <h4 class="table-title text-content">Total</h4>
-                                                <h5> {{ site_settings.currency  }} <span class="total-value"> {{ order.total_price }} </span>   </h5>
-                                            </td>
-
-                                            <td class="save-remove">
-                                                <h4 class="table-title text-content">Action</h4>
-                                                <a class="save notifi-wishlist" href="javascript:void(0)">Save for later</a>
-                                                <a class="remove close_button" href="">Remove</a>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                        
-
-                                    {% else %}
-                                        <tr>
-                                            no items 
-                                        </tr>
-                                    {% endif %}
-
- 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xxl-3">
-                    <div class="summery-box p-sticky">
-                        <div class="summery-header">
-                            <h3>Cart Total</h3>
-                        </div>
-
-                        <div class="summery-contain">
-                            <div class="coupon-cart">
-                                <h6 class="text-content mb-2">Coupon Apply</h6>
-                                <div class="mb-3 coupon-box input-group">
-                                    <input type="email" class="form-control" id="exampleFormControlInput1"
-                                        placeholder="Enter Coupon Code Here...">
-                                    <button class="btn-apply">Apply</button>
-                                </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <h4>Subtotal</h4>
-                                    <h4 class="price">{{site_settings.currency}} <span id="cartTotal">00</span></h4>
-                                </li>
-
-                                <li>
-                                    <h4>Coupon Discount</h4>
-                                    <h4 class="price">(-) <span id="discount">0.00</span></h4>
-                                </li>
-
-                                <li class="align-items-start">
-                                    <h4>Shipping</h4>
-                                    <h4 class="price text-end" > {{site_settings.currency}}  <span id="shipping">0</span></h4>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <ul class="summery-total">
-                            <li class="list-total border-top-0">
-                                <h4>Total</h4>
-                                <h4 class="price theme-color">{{site_settings.currency}} <b class="" id="grandTotal"></b></h4>
-                            </li>
-                        </ul>
-
-                        <div class="button-group cart-button">
-                            <ul>
-                                <li>
-                                    <button onclick="location.href = 'checkout.html';"
-                                        class="btn btn-animation proceed-btn fw-bold">Process To Checkout</button>
-                                </li>
-
-                                <li>
-                                    <button onclick="location.href = '{% url 'home' %}';"
-                                        class="btn btn-light shopping-button text-dark">
-                                        <i class="fa-solid fa-arrow-left-long"></i>Return To Shopping</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Cart Section End -->
 
 
      <!-- Cart Section Start -->
@@ -251,7 +104,7 @@
                                                 <div class="product-detail">
                                                     <ul
                                                         <li class="name">
-                                                            <a href="product-left-thumbnail.html">{{order.item.product_name}}</a>
+                                                            <a href="">{{order.item.product_name|truncatewords:"2"}}</a>
                                                         </li>
 
                                                         <li class="text-content">Sold By: Fresho</li>
@@ -269,16 +122,20 @@
 
                                         <td class="quantity">
                                             <h4 class="table-title text-content">Qty</h4>
-                                            <h4 class="text-title">01</h4>
+                                            <h4 class="text-title">{{order.quantity}}</h4>
                                         </td>
 
                                         <td class="subtotal">
                                             <h4 class="table-title text-content">Total</h4>
-                                            <h5>$35.10</h5>
+                                            <h5>{{site_settings.currency}} {{order.paid_amt }}</h5>
                                         </td>
                                     </tr>
 
                                     {% endfor %}
+                                     {% else %}
+                                        <tr>
+                                            no items 
+                                        </tr>
                                     {% endif %}
 
                                 
@@ -294,7 +151,7 @@
                             <div class="summery-box">
                                 <div class="summery-header">
                                     <h3>Price Details</h3>
-                                    <h5 class="ms-auto theme-color">(3 Items)</h5>
+                                    <h5 class="ms-auto theme-color">({{total_orders}} Items)</h5>
                                 </div>
 
                                 <ul class="summery-contain">
@@ -378,67 +235,6 @@
 {% block js %}
 
 <script>
-$(document).ready(function () {
 
-    $('.product-box-contain').each(function () {
-        updateRow($(this));
-    });
-
-    cartTotal();
-});
-
-
- function updateRow(container) {
-
-    let input = container.find('.qty-input');
-
-    let qty = parseInt(input.val()) || 0;
-    let min = parseInt(input.attr('min')) || 1;
-    let max = parseInt(input.attr('max')) || 9;
-
-    if (qty < min) qty = min;
-    if (qty > max) qty = max;
-
-    input.val(qty);
-
-    let price = parseFloat(container.data('price'));
-    if (!isNaN(price)) {
-        let total = price * qty;
-        container.find('.total-value').text(total);
-    }
-}
-$(document).on('click', '.qty-btn', function () {
-
-    let container = $(this).closest('.product-box-contain');
-    let input = container.find('.qty-input');
-    let qty = parseInt(input.val()) || 0;
-
-    let min = parseInt(input.attr('min')) || 1;
-    let max = parseInt(input.attr('max')) || 9;
-
-    let action = $(this).data('action');
-
-    if (action === 'plus' && qty < max) qty++;
-    if (action === 'minus' && qty > min) qty--;
-
-    input.val(qty);
-
-    updateRow(container);
-    cartTotal();
-});
-
-function cartTotal() {
-    let cartTotal = 0;
-
-    $('.total-value').each(function () {
-        let val = parseFloat($(this).text()) || 0;
-        cartTotal += val;
-    });
-    let shipping = parseFloat($('#shipping').text()) || 0;
-    let discount = parseFloat($('#discount').text()) || 0;
-    $('#cartTotal').text(cartTotal);
-    $('#grandTotal').text(cartTotal+shipping);
-    
-}
 </script>
 {% endblock js %}

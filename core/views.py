@@ -23,7 +23,8 @@ def home(request):
 def cart(request):
     if request.user.is_authenticated:
         fname =  request.user.first_name
-    carts = Cart.objects.filter(user=request.user)
+    # carts = Cart.objects.filter(user=request.user)
+    carts = Cart.objects.select_related('item').filter(user=request.user)
     for cart in carts:
         cart.total_price = cart.item.price * cart.quantity
  
@@ -61,8 +62,10 @@ def remove_from_cart(request,prod_id):
 # order list 
 def orders(request):
     orders =  Order.objects.filter(user=request.user)
+    
     context = {
-        'orders' : orders
+        'orders' : orders,
+        'total_orders':orders.count()
     }
     return render(request, 'order.html',context)
 
