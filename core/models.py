@@ -53,7 +53,7 @@ class Product(models.Model):
     product_cat = models.CharField(max_length=100, choices=PRODUCT_CATAEGORY,default=PRODUCT_CATAEGORY['fruits'])
     price = models.IntegerField()
     product_img  = models.ImageField(upload_to='product/img/')
-    product_quantity = models.IntegerField(default=0, null=True)
+    product_quantity = models.PositiveIntegerField(default=0, null=True)
     created_at = models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
@@ -63,8 +63,26 @@ class Product(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User,  related_name="cart_user", on_delete=models.CASCADE)
     item = models.ForeignKey(Product, on_delete=models.CASCADE)  
-    quantity = models.IntegerField(default=1) 
+    quantity = models.PositiveIntegerField(default=1) 
     created_at = models.DateTimeField(null=True ,default=datetime.now())
 
     def __str__(self):
         return  str(self.item.id )
+    
+
+class Order(models.Model):
+    order_stat ={
+        'delivered':'delivered',
+        'shipped':'shipped',
+        'canceled':'canceled'
+    }
+    user = models.ForeignKey(User,  related_name="order", on_delete=models.CASCADE)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE)  
+    price = models.IntegerField()  
+    paid_amt = models.IntegerField()  
+    order_status = models.CharField(max_length=254,choices=order_stat)  
+    quantity = models.PositiveIntegerField(default=1) 
+    created_at = models.DateTimeField(null=True ,default=datetime.now())
+
+    def __str__(self):
+        return  str(f"{self.user} X {self.item.id}" )
