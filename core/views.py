@@ -1,5 +1,5 @@
 from django.shortcuts import render ,redirect
-from .models import Product,Cart
+from .models import Product,Cart, Order
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
@@ -57,6 +57,16 @@ def remove_from_cart(request,prod_id):
     cart_item.delete();
     return redirect('cart')
    
+
+# order list 
+def orders(request):
+    orders =  Order.objects.filter(user=request.user)
+    context = {
+        'orders' : orders
+    }
+    return render(request, 'order.html',context)
+
+
 
 def contact(request): 
     return render(request, 'contact.html')
