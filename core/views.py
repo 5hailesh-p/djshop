@@ -57,7 +57,17 @@ def remove_from_cart(request,prod_id):
    if cart_item:
     cart_item.delete();
     return redirect('cart')
-   
+
+# products 
+
+@login_required
+def product_by_id(request,pid):
+    product =  Product.objects.get(id=pid)  
+
+    context = {
+        'product': product,
+    }
+    return render(request, '.html',context)
 
 # order list 
 def orders(request):
