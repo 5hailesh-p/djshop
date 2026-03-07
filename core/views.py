@@ -33,24 +33,25 @@ def cart(request):
 def add_to_cart(request):
     if request.method=='POST':
         product_id= request.POST.get('product_id')
+        product_quantity= int(request.POST.get('product_quantity')) | 1
         product  = Product.objects.get(id=product_id)
     cart_item, created = Cart.objects.get_or_create(
         user=request.user,
         item = product,
     )
     if not created:
-        cart_item.quantity +=1
+        cart_item.quantity +=product_quantity
         cart_item.save()
     cart_count = Cart.objects.filter(user= request.user).count()
 
     # print(product)
     messages.success(request,"Added to cart ")
-    return JsonResponse({
-        'success':True,
-        'cart_count':cart_count
-    })
+    # return JsonResponse({
+    #     'success':True,
+    #     'cart_count':cart_count
+    # })
 
-    # return render(request, 'cart.html')
+    return cart(request)
 
 def remove_from_cart(request,prod_id):
    cart_item = Cart.objects.get(user=request.user,item=prod_id)
@@ -63,11 +64,15 @@ def remove_from_cart(request,prod_id):
 @login_required
 def product_by_id(request,pid):
     product =  Product.objects.get(id=pid)  
-
+    m_price , price = 20 , product.price
+    off_pcnt =  100 - ((price * 100)/ (price+m_price)) 
     context = {
         'product': product,
+        'off_pcnt': off_pcnt.__round__(2),
+        'm_price':m_price,
+        
     }
-    return render(request, '.html',context)
+    return render(request, 'product.html',context)
 
 # order list 
 def orders(request):

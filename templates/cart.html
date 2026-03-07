@@ -45,14 +45,14 @@
                                         <tr class="product-box-contain "  data-price="{{cart.item.price}}">
                                             <td class="product-detail">
                                                 <div class="product border-0">
-                                                    <a href="#" class="product-image">
+                                                    <a href="{% url 'product_by_id' cart.item.id %}" class="product-image">
                                                         <img src="{{cart.item.product_img.url}}"
                                                             class="img-fluid blur-up lazyload" alt="">
                                                     </a>
                                                     <div class="product-detail">
                                                         <ul>
                                                             <li class="name">
-                                                                <a href="#">{{cart.item.product_name}}</a>
+                                                                <a href="{% url 'product_by_id' cart.item.id %}">{{cart.item.product_name}}</a>
                                                             </li>
 
                                                             <li class="text-content"><span class="text-title">Sold

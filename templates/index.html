@@ -462,35 +462,14 @@
                                             <div class="col-12 px-0">
                                                 <div class="product-box">
                                                     <div class="product-image">
-                                                        <a href="product-left-thumbnail.html">
+                                                        <a href="{% url 'product_by_id' product.id %}">
                                                             <img src="{{product.product_img.url}}"
                                                                 class="img-fluid blur-up lazyload" alt="">
                                                         </a>
-                                                        <ul class="product-option">
-                                                            <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="View">
-                                                                <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                                    data-bs-target="#view">
-                                                                    <i data-feather="eye"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="Compare">
-                                                                <a href="compare.html">
-                                                                    <i data-feather="refresh-cw"></i>
-                                                                </a>
-                                                            </li>
-    
-                                                            <li data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="Wishlist">
-                                                                <a href="wishlist.html" class="notifi-wishlist">
-                                                                    <i data-feather="heart"></i>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
+                                                        
                                                     </div>
                                                     <div class="product-detail">
-                                                        <a href="product-left-thumbnail.html">
+                                                        <a href="{% url 'product_by_id' product.id %}">
                                                             <h6 class="name">{{product.product_name}}</h6>
                                                         </a>
     
@@ -538,7 +517,7 @@
                                                                            <i class="fa fa-minus"></i>
                                                                        </button>
                                                                        <input class="form-control input-number qty-input"
-                                                                           type="text" name="quantity" value="1">
+                                                                           type="text" name="product_quantity" value="1" >
                                                                        <button type="button" class="qty-right-plus"
                                                                            data-type="plus" data-field="">
                                                                            <i class="fa fa-plus"></i>
@@ -1900,6 +1879,7 @@ $(document).on('click','.add-to-cart-btn',function(){
         headers:{"X-CSRFToken": csrf},
         data:{
             product_id:product_id,
+            product_quantity: 1,
         },
         success: function(response){
             if(response.success){
@@ -1911,6 +1891,71 @@ $(document).on('click','.add-to-cart-btn',function(){
         }
 
     });
+    this.innerHTML= "added"
 });
+</script>
+
+
+
+{% comment %} timer script {% endcomment %}
+<script>
+    /**=====================
+    Timer 1 js
+==========================**/
+/***** CALCULATE THE TIME REMAINING *****/
+function getTimeRemaining(endtime) {
+    var t = Date.parse(endtime) - Date.parse(new Date());
+
+    /***** CONVERT THE TIME TO A USEABLE FORMAT *****/
+    var seconds = Math.floor((t / 1000) % 60);
+    var minutes = Math.floor((t / 1000 / 60) % 60);
+    var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+    var days = Math.floor(t / (1000 * 60 * 60 * 24));
+
+    /***** OUTPUT THE CLOCK DATA AS A REUSABLE OBJECT *****/
+    return {
+        'total': t,
+        'days': days,
+        'hours': hours,
+        'minutes': minutes,
+        'seconds': seconds
+    };
+    
+}
+
+/***** DISPLAY THE CLOCK AND STOP IT WHEN IT REACHES ZERO *****/
+function initializeClock(id, endtime) {
+    var clock = document.getElementById(id);
+    var daysSpan = clock.querySelector('.days');
+    var hoursSpan = clock.querySelector('.hours');
+    var minutesSpan = clock.querySelector('.minutes');
+    var secondsSpan = clock.querySelector('.seconds');
+
+    function updateClock() {
+        var t = getTimeRemaining(endtime);
+
+        daysSpan.innerHTML = t.days;
+        hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+        minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+        secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+        if (t.total <= 0) {
+            clearInterval(timeinterval);
+        }
+    }
+
+    updateClock(); // run function once at first to avoid delay
+    var timeinterval = setInterval(updateClock, 1000);
+}
+
+/***** SET A VALID END DATE *****/
+{% comment %} var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000); {% endcomment %}
+var deadline = new Date("2026-03-06T23:00:00");
+if(Date.parse(deadline) >= Date.parse(new Date())){ 
+    initializeClock('clockdiv-1', deadline);
+}else{ 
+    document.getElementById('clockdiv-1').innerHTML = 'Expired'
+    
+}
 </script>
 {% endblock js %}
