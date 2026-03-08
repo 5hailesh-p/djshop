@@ -102,7 +102,6 @@ def cart_update_qnt(request):
             cart_item.quantity = product_qnt
             cart_item.save()
 
-    # return redirect('cart')
     return JsonResponse({
         'success':True,
     })
@@ -123,7 +122,11 @@ def product_by_id(request,pid):
     return render(request, 'productVIew.html',context)
 
 # order list 
+@login_required
 def orders(request):
+    if request.method == 'POST':
+        carts = Cart.objects.filter(user=request.user)
+        
     orders =  Order.objects.filter(user=request.user)
     
     context = {
@@ -136,8 +139,20 @@ def orders(request):
 
 @login_required
 def checkout(request):
+    carts = Cart.objects.select_related('item').filter(user= request.user)
+    shipping, sub_total = 99, 0
+ 
+    for cart in carts:
+        cart.total_price = cart.item.price * cart.quantity
+        sub_total+= cart.total_price
+ 
+    context =  {
+        'carts':carts,
+        'shipping':shipping,
+        'sub_total': sub_total,
+    }
 
-    return render(request, 'checkout.html') 
+    return render(request, 'checkout.html', context) 
 
 
 def contact(request): 
