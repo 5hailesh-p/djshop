@@ -40,7 +40,7 @@
                         <div class="table-responsive-xl">
                             <table class="table">
                                 <tbody>
-                                    {% if carts%}
+                        
                                         {% for cart in carts %}
                                         <tr class="product-box-contain "  data-price="{{cart.item.price}}">
                                             <td class="product-detail">
@@ -74,16 +74,16 @@
                                             <td class="quantity">
                                                 <h4 class="table-title text-content">Qty</h4>
                                                 <div class="quantity-price">
-                                                    <div class="cart_qty">
+                                                    <div class="cart_qty" >
                                                         <div class="input-group">
                                                             <button type="button" class="btn qty-btn qty-left-minus"
-                                                                data-type="minus" data-field="" data-action="minus">
+                                                                data-type="minus" data-idd="{{cart.item.id}}" data-action="minus">
                                                                 <i class="fa fa-minus ms-0"></i>
                                                             </button>
                                                             <input class="form-control input-number qty-input" type="text"
                                                                 name="quantity" value="{{cart.quantity}}" min="1" max="9">
                                                             <button type="button" class="btn qty-btn qty-right-plus"
-                                                                data-type="plus" data-field="" data-action="plus">
+                                                                data-type="plus" data-idd="{{cart.item.id}}" data-action="plus">
                                                                 <i class="fa fa-plus ms-0"></i>
                                                             </button>
                                                         </div>
@@ -102,14 +102,13 @@
                                                 <a class="remove close_button" href="{% url 'remove_from_cart' cart.item.id %}">Remove</a>
                                             </td>
                                         </tr>
+                                        {% empty %}
+                                            <tr>
+                                                no items 
+                                            </tr>
                                         {% endfor %}
-                                        
-
-                                    {% else %}
-                                        <tr>
-                                            no items 
-                                        </tr>
-                                    {% endif %}
+                                        {% csrf_token %}
+ 
 
  
                                 </tbody>
@@ -161,9 +160,9 @@
                         <div class="button-group cart-button">
                             <ul>
                                 <li>
-                                    <button onclick="location.href = 'checkout.html';"
+                                    <button onclick="location.href = '{% url 'checkout' %}';"
                                         class="btn btn-animation proceed-btn fw-bold">Process To Checkout</button>
-                                </li>
+                                </li>   
 
                                 <li>
                                     <button onclick="location.href = '{% url 'home' %}';"
@@ -229,6 +228,7 @@ $(document).on('click', '.qty-btn', function () {
     if (action === 'minus' && qty > min) qty--;
 
     input.val(qty);
+    upadateCart($(this).data('idd'),qty);
 
     updateRow(container);
     cartTotal();
@@ -247,5 +247,27 @@ function cartTotal() {
     $('#grandTotal').text(cartTotal+shipping);
     
 }
+function upadateCart(id, qnt) {
+ 
+    $.ajax({
+        type:'post',
+        headers:{
+            'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val(),
+        },
+        url:"{% url 'cart_update_qnt' %}",
+        data:{
+            'item_id': id,
+            'qnt': qnt,
+        },
+        success:function(response){
+            //console.log(response.success)
+        },
+        error:function(){
+            //console.log('error')
+        },
+
+    })
+}
+
 </script>
 {% endblock js %}

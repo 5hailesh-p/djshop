@@ -2,7 +2,7 @@ from django.shortcuts import render ,redirect
 from .models import Product,Cart, Order
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.contrib import messages
 
 # Create your views here.
@@ -84,12 +84,28 @@ def add_to_cart(request):
     # })
 
     return cart(request)
-
+@login_required
 def remove_from_cart(request,prod_id):
-   cart_item = Cart.objects.get(user=request.user,item=prod_id)
-   if cart_item:
-    cart_item.delete();
+    cart_item = Cart.objects.get(user=request.user,item=prod_id)
+    if cart_item:
+        cart_item.delete();
     return redirect('cart')
+
+@login_required
+def cart_update_qnt(request):
+    if request.method == 'POST':
+        item_id  = request.POST.get('item_id')
+        product_qnt  = request.POST.get('qnt')
+ 
+        cart_item = Cart.objects.get(user=request.user,item=item_id)
+        if cart_item:
+            cart_item.quantity = product_qnt
+            cart_item.save()
+
+    # return redirect('cart')
+    return JsonResponse({
+        'success':True,
+    })
 
 # products 
 
@@ -116,6 +132,12 @@ def orders(request):
     }
     return render(request, 'order.html',context)
 
+
+
+@login_required
+def checkout(request):
+
+    return render(request, 'checkout.html') 
 
 
 def contact(request): 
