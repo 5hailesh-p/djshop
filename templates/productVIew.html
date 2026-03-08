@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %} Product {% endblock title %}
+
+
+{% block body %}
+
+
+    <!-- Breadcrumb Section Start -->
+    <section class="breadcrumb-section pt-0">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-contain">
+                        <h2>Product</h2>
+                        <nav>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'home' %}">
+                                        <i class="fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">Product</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+       <!-- Product Left Sidebar Start -->
+    <section class="product-section">
+        <div class="container-fluid-lg">
+            <div class="row justify-content-center">
+                <div class="col-xxl-12 col-xl-12 col-lg-12 wow fadeInUp">
+                    <div class="row g-4">
+                        <div class="col-xl-6 wow fadeInUp">
+                            <div class="product-left-box">
+                                <div class="row g-2">
+                                    <div class="col-xxl-10 col-lg-12 col-md-10">
+                                        <div class="product-main-2 no-arrow">
+                                            <div>
+                                                <div class="slider-image">
+                                                    <img src="{{ product.product_img.url}}" id="img-1"
+                                                        data-zoom-image="{{ product.product_img.url}}"
+                                                        class="img-fluid w-100 image_zoom_cls-0 blur-up lazyload" alt="">
+                                                </div>
+                                            </div>
+
+                                       
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xxl-2 col-lg-12 col-md-2">
+                                        <div class="left-slider-image-2 left-slider no-arrow slick-top">
+                                            <div>
+                                                <div class="sidebar-image">
+                                                    <img src="{{ product.product_img.url}}"
+                                                        class="img-fluid blur-up lazyload" alt="">
+                                                </div>
+                                            </div>
+
+                                   
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="right-box-contain">
+                                <h6 class="offer-top">{{off_pcnt}}% Off</h6>
+                                <h2 class="name">{{product.product_name}}</h2>
+                                <div class="price-rating">
+                                    <h3 class="theme-color price">{{site_settings.currency}} {{product.price}} <del class="text-content">{{site_settings.currency}} {{product.price|add:m_price}}</del> <span
+                                            class="offer theme-color">({{off_pcnt}}% off)</span></h3>
+                                    <div class="product-rating custom-rate">
+                                        <ul class="rating">
+                                            <li>
+                                                <i data-feather="star" class="fill"></i>
+                                            </li>
+                                            <li>
+                                                <i data-feather="star" class="fill"></i>
+                                            </li>
+                                            <li>
+                                                <i data-feather="star" class="fill"></i>
+                                            </li>
+                                            <li>
+                                                <i data-feather="star" class="fill"></i>
+                                            </li>
+                                            <li>
+                                                <i data-feather="star"></i>
+                                            </li>
+                                        </ul>
+                                        <span class="review">23 Customer Review</span>
+                                    </div>
+                                </div>
+
+                                <div class="product-contain">
+                                    <p>{{product.product_desc}}
+                                    </p>
+                                </div>
+                            {% if product.product_quantity > 0 %}
+                                <form action="{% url "add_to_cart" %}" method="post" >
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{product.id}}">
+                                    <div class="note-box product-package">
+                                        <div class="cart_qty qty-box product-qty">
+                                            <div class="input-group">
+                                                <button type="button" class="qty-left-minus" data-type="minus"
+                                                    data-field="">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                                <input class="form-control input-number qty-input" type="text"
+                                                name="product_quantity" value="1">
+                                                <button type="button" class="qty-right-plus" data-type="plus" data-field="">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-md bg-dark cart-button text-white w-100">Add To Cart</button>
+                                    </div>
+                                </form>
+
+                            {% else %}
+                                <b class="fw-bold text-danger fs-3">Out of Stock</b>
+                            {% endif %}
+
+                                 
+
+                                <div class="pickup-box">
+                                    <div class="product-title">
+                                        <h4>About Product </h4>
+                                    </div>
+
+                                    <div class="pickup-detail">
+                                        <h4 class="text-content">
+                                            {{product.product_desc}}
+                                        </h4>
+                                    </div>
+
+                                     
+                                </div>
+ 
+                            </div>
+                        </div>
+
+                         
+                    </div>
+                </div>
+
+                 
+            </div>
+        </div>
+    </section>
+    <!-- Product Left Sidebar End -->
+
+
+
+{% endblock body %}
+
+{% block js %}
+
+ <script>
+ $('.qty-right-plus').click(function () {
+     if ($(this).prev().val() < 9) {
+         $(this).prev().val(+$(this).prev().val() + 1);
+     } 
+     
+ });
+ $('.qty-left-minus').click(function () {
+     if ($(this).next().val() > 1) {
+         if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
+     } 
+ });
+ </script>
+{% endblock js %}

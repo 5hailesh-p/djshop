@@ -33,14 +33,16 @@ def cart(request):
 def add_to_cart(request):
     if request.method=='POST':
         product_id= request.POST.get('product_id')
-        product_quantity= int(request.POST.get('product_quantity')) | 1
+        product_quantity= int(request.POST.get('product_quantity',1)) 
         product  = Product.objects.get(id=product_id)
     cart_item, created = Cart.objects.get_or_create(
         user=request.user,
         item = product,
+        defaults={'quantity':product_quantity},
     )
+    
     if not created:
-        cart_item.quantity +=product_quantity
+        cart_item.quantity += product_quantity
         cart_item.save()
     cart_count = Cart.objects.filter(user= request.user).count()
 
@@ -72,7 +74,7 @@ def product_by_id(request,pid):
         'm_price':m_price,
         
     }
-    return render(request, 'product.html',context)
+    return render(request, 'productVIew.html',context)
 
 # order list 
 def orders(request):
