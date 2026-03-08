@@ -11,13 +11,43 @@ def home(request):
     fname = None
     if request.user.is_authenticated:
         fname =  request.user.first_name
+
+    products = Product.objects.all()
+    category =set({})
+
+    for product in products:
+        category.add(product.product_cat) 
+     
     context = {
         # 'products' : Product.objects.filter(product_cat__in=['vehicel','accessories']),
-        'products' : Product.objects.all(),
+        'products' : products,
+        'category' :category,
         'fname' : fname,
     }
 
     return render(request, 'index.html', context)
+
+def products(request,cat=''): 
+    fname = None
+    if request.user.is_authenticated:
+        fname =  request.user.first_name
+    all_prod =  Product.objects.all()
+    if cat :
+        products = Product.objects.filter(product_cat__in=[cat])
+    else:
+        products = all_prod
+    category =set({})
+
+    for product in all_prod:
+        category.add(product.product_cat) 
+     
+    context = {
+        'products' : products,
+        # 'category' :category,
+        'fname' : fname,
+    }
+
+    return render(request, 'products.html', context)
 
 @login_required
 def cart(request):

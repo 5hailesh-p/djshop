@@ -50,14 +50,14 @@ class Product(models.Model):
  
     product_name = models.CharField(max_length=254)
     product_desc = models.TextField()
-    product_cat = models.CharField(max_length=100, choices=PRODUCT_CATAEGORY,default=PRODUCT_CATAEGORY['fruits'])
+    product_cat = models.CharField(max_length=100, choices=PRODUCT_CATAEGORY,default=PRODUCT_CATAEGORY['fruit'])
     price = models.IntegerField()
     product_img  = models.ImageField(upload_to='product/img/')
     product_quantity = models.PositiveIntegerField(default=0, null=True)
     created_at = models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id) +" " + str(self.product_name[:10])
 
 
 class Cart(models.Model):

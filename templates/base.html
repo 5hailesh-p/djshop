@@ -244,7 +244,7 @@
                                             
 
                                             <li class="nav-item ">
-                                                <a class="nav-link " href="{% url "home" %}">Product</a>  
+                                                <a class="nav-link " href="{% url "products" %}">Product</a>  
                                             </li>
                                             <li class="nav-item ">
                                                 <a class="nav-link " href="{% url "cart" %}">Cart</a>  
@@ -275,7 +275,7 @@
     <div class="mobile-menu d-md-none d-block mobile-cart">
         <ul>
             <li class="active">
-                <a href="index.html">
+                <a href="{% url "home" %}">
                     <i class="iconly-Home icli"></i>
                     <span>Home</span>
                 </a>
@@ -289,18 +289,13 @@
             </li>
 
             <li>
-                <a href="search.html" class="search-box">
+                <a href="#" class="search-box">
                     <i class="iconly-Search icli"></i>
                     <span>Search</span>
                 </a>
             </li>
 
-            <li>
-                <a href="wishlist.html" class="notifi-wishlist">
-                    <i class="iconly-Heart icli"></i>
-                    <span>My Wish</span>
-                </a>
-            </li>
+           
 
             <li>
                 <a href="{% url 'cart' %}">
@@ -369,7 +364,7 @@
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="footer-logo">
                             <div class="theme-logo">
-                                <a href="index.html">
+                                <a href="{% url "home" %}">
                                     <img src="{% static ''%}images/logo/1.png" class="blur-up lazyload" alt="">
                                 </a>
                             </div>
@@ -429,19 +424,17 @@
                         <div class="footer-contain">
                             <ul>
                                 <li>
-                                    <a href="index.html" class="text-content">Home</a>
+                                    <a href="{% url "home" %}" class="text-content">Home</a>
                                 </li>
                                 <li>
                                     <a href="#" class="text-content">Shop</a>
                                 </li>
                                 <li>
-                                    <a href="about-us.html" class="text-content">About Us</a>
+                                    <a href="#" class="text-content">About Us</a>
                                 </li>
+                                
                                 <li>
-                                    <a href="blog-list.html" class="text-content">Blog</a>
-                                </li>
-                                <li>
-                                    <a href="contact-us.html" class="text-content">Contact Us</a>
+                                    <a href="{% url "contact" %}" class="text-content">Contact Us</a>
                                 </li>
                             </ul>
                         </div>
@@ -466,12 +459,7 @@
                                 <li>
                                     <a href="wishlist.html" class="text-content">Your Wishlist</a>
                                 </li>
-                                <li>
-                                    <a href="search.html" class="text-content">Search</a>
-                                </li>
-                                <li>
-                                    <a href="faq.html" class="text-content">FAQ</a>
-                                </li>
+                              
                             </ul>
                         </div>
                     </div>
@@ -548,7 +536,7 @@
                                 <i class="fa-brands fa-twitter"></i>
                             </a>
                         </li>
-                        <li>
+    
                         <li>
                             <a href="https://www.instagram.com/" target="_blank">
                                 <i class="fa-brands fa-instagram"></i>
@@ -566,109 +554,7 @@
     </footer>
     <!-- Footer Section End -->
 
-    <!-- Quick View Modal Box Start -->
-    <div class="modal fade theme-modal view-modal" id="view" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down">
-            <div class="modal-content">
-                <div class="modal-header p-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-sm-4 g-2">
-                        <div class="col-lg-6">
-                            <div class="slider-image">
-                                <img src="{% static ''%}images/product/category/1.jpg" class="img-fluid blur-up lazyload"
-                                    alt="">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="right-sidebar-modal">
-                                <h4 class="title-name">Peanut Butter Bite Premium Butter Cookies 600 g</h4>
-                                <h4 class="price">$36.99</h4>
-                                <div class="product-rating">
-                                    <ul class="rating">
-                                        <li>
-                                            <i data-feather="star" class="fill"></i>
-                                        </li>
-                                        <li>
-                                            <i data-feather="star" class="fill"></i>
-                                        </li>
-                                        <li>
-                                            <i data-feather="star" class="fill"></i>
-                                        </li>
-                                        <li>
-                                            <i data-feather="star" class="fill"></i>
-                                        </li>
-                                        <li>
-                                            <i data-feather="star"></i>
-                                        </li>
-                                    </ul>
-                                    <span class="ms-2">8 Reviews</span>
-                                    <span class="ms-2 text-danger">6 sold in last 16 hours</span>
-                                </div>
-
-                                <div class="product-detail">
-                                    <h4>Product Details :</h4>
-                                    <p>Candy canes sugar plum tart cotton candy chupa chups sugar plum chocolate I love.
-                                        Caramels marshmallow icing dessert candy canes I love soufflé I love toffee.
-                                        Marshmallow pie sweet sweet roll sesame snaps tiramisu jelly bear claw. Bonbon
-                                        muffin I love carrot cake sugar plum dessert bonbon.</p>
-                                </div>
-
-                                <ul class="brand-list">
-                                    <li>
-                                        <div class="brand-box">
-                                            <h5>Brand Name:</h5>
-                                            <h6>Black Forest</h6>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="brand-box">
-                                            <h5>Product Code:</h5>
-                                            <h6>W0690034</h6>
-                                        </div>
-                                    </li>
-
-                                    <li>
-                                        <div class="brand-box">
-                                            <h5>Product Type:</h5>
-                                            <h6>White Cream Cake</h6>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <div class="select-size">
-                                    <h4>Cake Size :</h4>
-                                    <select class="form-select select-form-size">
-                                        <option selected>Select Size</option>
-                                        <option value="1.2">1/2 KG</option>
-                                        <option value="0">1 KG</option>
-                                        <option value="1.5">1/5 KG</option>
-                                        <option value="red">Red Roses</option>
-                                        <option value="pink">With Pink Roses</option>
-                                    </select>
-                                </div>
-
-                                <div class="modal-button">
-                                    <button onclick="location.href = '{% url 'cart' %}';"
-                                        class="btn btn-md add-cart-button icon">Add
-                                        To Cart</button>
-                                    <button onclick="location.href = 'product-left.html';"
-                                        class="btn theme-bg-color view-button icon text-white fw-bold btn-md">
-                                        View More Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Quick View Modal Box End -->
+    
 
     <!-- Location Modal Start -->
     <div class="modal location-modal fade theme-modal" id="locationModal" tabindex="-1">
@@ -770,25 +656,7 @@
     </div>
     <!-- Location Modal End -->
 
-    <!-- Cookie Bar Box Start -->
-    {% comment %} <div class="cookie-bar-box">
-        <div class="cookie-box">
-            <div class="cookie-image">
-                <img src="{% static ''%}images/cookie-bar.png" class="blur-up lazyload" alt="">
-                <h2>Cookies!</h2>
-            </div>
-
-            <div class="cookie-contain">
-                <h5 class="text-content">We use cookies to make your experience better</h5>
-            </div>
-        </div>
-
-        <div class="button-group">
-            <button class="btn privacy-button">Privacy Policy</button>
-            <button class="btn ok-button">OK</button>
-        </div>
-    </div> {% endcomment %}
-    <!-- Cookie Bar Box End -->
+  
 
     <!-- Deal Box Modal Start -->
     <div class="modal fade theme-modal deal-modal" id="deal-box" tabindex="-1">

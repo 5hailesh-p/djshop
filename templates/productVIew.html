@@ -46,7 +46,8 @@
                                                 <div class="slider-image">
                                                     <img src="{{ product.product_img.url}}" id="img-1"
                                                         data-zoom-image="{{ product.product_img.url}}"
-                                                        class="img-fluid w-100 image_zoom_cls-0 blur-up lazyload" alt="">
+                                                        class="img-fluid w-100 mx-auto image_zoom_cls-0 blur-up lazyload" 
+                                                        style="max-width: 19rem;" alt="{{ product.product_name}}">
                                                 </div>
                                             </div>
 
@@ -59,7 +60,7 @@
                                             <div>
                                                 <div class="sidebar-image">
                                                     <img src="{{ product.product_img.url}}"
-                                                        class="img-fluid blur-up lazyload" alt="">
+                                                        class="img-fluid blur-up lazyload" alt="{{ product.product_name}}">
                                                 </div>
                                             </div>
 

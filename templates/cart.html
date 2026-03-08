@@ -55,8 +55,7 @@
                                                                 <a href="{% url 'product_by_id' cart.item.id %}">{{cart.item.product_name}}</a>
                                                             </li>
 
-                                                            <li class="text-content"><span class="text-title">Sold
-                                                                    By:</span> Fresho</li>
+                                                            <li class="text-content"><span class="text-title">Category:</span> {{cart.item.product_cat}}</li>
 
                                                             <li class="text-content"><span class="text-title">Quantity</span> {{cart.quantity}}</li>
 

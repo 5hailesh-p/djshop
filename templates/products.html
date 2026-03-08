@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %} Products  {% endblock title %}
+
+
+{% block body %}
+
+    <!-- Breadcrumb Section Start -->
+    <section class="breadcrumb-section pt-0">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-contain">
+                        <h2>Products</h2>
+                        <nav>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'home' %}">
+                                        <i class="fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active">Products</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+
+
+ 
+    <!-- Product Section Start -->
+    <section class="product-section">
+        <div class="container-fluid-lg">
+            <div class="row g-sm-4 g-3">
+                <div class="col-xxl-3 col-xl-4 d-none d-xl-block">
+                    <div class="p-sticky">
+                        <div class="category-menu">
+                            <h3>Category</h3>
+                            <ul>
+                                {% for cat in category %}
+                                <li class=" {% if forloop.last %} pb-30 {% endif %}">
+                                    <div class="category-list">
+                                        <img src="{% static ''%}images/svg/{{cat}}.svg" class="blur-up lazyload" alt="">
+                                        <h5>
+                                            <a href="{% url 'products_by_cat' cat %}">{{cat|capfirst}}</a>
+                                        </h5>
+                                    </div>
+                                </li>
+                                {% empty %}
+                                <p>no items found</p>
+                                {% endfor %}
+                               
+                              
+                            </ul>
+
+                            <ul class="value-list">
+                                <li>
+                                    <div class="category-list">
+                                        <h5 class="ms-0 text-title">
+                                            <a href="#">Value of the Day</a>
+                                        </h5>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="category-list">
+                                        <h5 class="ms-0 text-title">
+                                            <a href="#">Top 50 Offers</a>
+                                        </h5>
+                                    </div>
+                                </li>
+                                <li class="mb-0">
+                                    <div class="category-list">
+                                        <h5 class="ms-0 text-title">
+                                            <a href="#">New Arrivals</a>
+                                        </h5>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                      
+                         
+                    </div>
+                </div>
+
+                <div class="col-xxl-9 col-xl-8">
+                    <div class="title title-flex">
+                        <div>
+                            <h2>Top Save Today</h2>
+                            <span class="title-leaf">
+                                <svg class="icon-width">
+                                    <use xlink:href="{% static ''%}images/svg/leaf.svg"></use>
+                                </svg>
+                            </span>
+                            <p>Don't miss this opportunity at a special discount just for this week.</p>
+                        </div>
+                        
+                    </div>
+
+                    <div class="section-b-space">
+                        <div class="product-border border-row overflow-hidden">
+                            <div class="product-box-slider no-arrow">
+                                
+                                {% for product in products %}
+                                    
+                                    <div>
+                                        <div class="row m-0">
+                                            <div class="col-12 px-0">
+                                                <div class="product-box">
+                                                    <div class="product-image">
+                                                        <a href="{% url 'product_by_id' product.id %}">
+                                                            <img src="{{product.product_img.url}}"
+                                                                class="img-fluid blur-up lazyload" alt="">
+                                                        </a>
+                                                        
+                                                    </div>
+                                                    <div class="product-detail">
+                                                        <a href="{% url 'product_by_id' product.id %}">
+                                                            <h6 class="name">{{product.product_name}}</h6>
+                                                        </a>
+    
+                                                        <h5 class="sold text-content">
+                                                            <span class="theme-color price">${{product.price}}</span>
+                                                            <del>{{product.price | add:10}}</del>
+                                                        </h5>
+    
+                                                        <div class="product-rating mt-sm-2 mt-1">
+                                                            <ul class="rating">
+                                                                <li>
+                                                                    <i data-feather="star" class="fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i data-feather="star" class="fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i data-feather="star" class="fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i data-feather="star" class="fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i data-feather="star"></i>
+                                                                </li>
+                                                            </ul>
+                                                            {% if product.product_quantity > 0 %} 
+                                                            <h6 class="theme-color">In Stock</h6>
+                                                            {% else %}
+                                                            <h6 class="text-danger">Out of Stock</h6>
+                                                            {% endif %}
+                                                        </div>
+    
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                <p>no items found</p>
+                                {% endfor %}
+                              
+                 
+                          
+                             
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+
+
+{% endblock body %}
+
+{% block js %}
+
+<script>
+
+</script>
+{% endblock js %}
