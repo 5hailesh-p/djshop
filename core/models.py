@@ -92,7 +92,8 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     user = models.ForeignKey(User,  related_name="order_items", on_delete=models.CASCADE)
-    order = models.ForeignKey(Order,on_delete=models.CASCADE) 
+    order = models.ForeignKey(Order,on_delete=models.CASCADE,null=True) 
+    invoice_id=  models.CharField(unique=True,max_length=50,null=True)
     product=  models.JSONField(default=0,null=True)
     product_name = models.JSONField(default=0,null=True)
     price = models.JSONField(default=0,null=True)

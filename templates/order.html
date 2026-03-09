@@ -97,19 +97,21 @@
                                     <tr>
                                         <td class="product-detail">
                                             <div class="product border-0">
-                                                <a href="#" class="product-image">
+                                                <a href="{% url 'invoice' order.invoice_id %}" class="product-image">
                                                     <img src="{{ order.item.product_img.url}}"
                                                         class="img-fluid blur-up lazyload" alt="">
                                                 </a>
                                                 <div class="product-detail text-start">
-                                                    <ul
+                                                    <ul>
                                                         <li class="name">
-                                                            <a href="">{{order.item.product_name|truncatewords:"2"}}</a>
+                                                            <a href="#">{{order.item.product_name|truncatewords:"2"}}</a> 
+                                                            <a href="{% url 'invoice' order.invoice_id %}" class="badge theme-color">Invoice</a>
                                                         </li>
 
                                                         <li class="text-content">Order at : {{order.created_at}}</li>
 
                                                         <li class="text-content">Status - {{order.order_status|capfirst}}</li>
+                                                         
                                                     </ul>
                                                 </div>
                                             </div>

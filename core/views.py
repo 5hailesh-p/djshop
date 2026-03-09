@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse,HttpResponse
 from django.contrib import messages
-
+import random
 # Create your views here.
 
 # @login_required
@@ -136,15 +136,12 @@ def orders(request):
             "price":[],
             "quantity":[],
         }
-        invoice = OrderItem.objects.create(
-                user=request.user,
-                order=orders,
-                product= lst['product'],
-                product_name=lst['product_name'],
-                price=lst['price'],
-                quantity=lst['quantity'],
-            )
-        invoice.save() 
+        rand_id = gen_rand()
+        inv = OrderItem.objects.filter(invoice_id=rand_id)
+        if inv :
+            print('matched')
+            rand_id = gen_rand()
+        
         for cart in carts: 
           
             lst['product'].append(cart.item.id)
@@ -158,13 +155,24 @@ def orders(request):
                 price=cart.item.price,
                 paid_amt=sub_total+shipping,
                 quantity=cart.quantity, 
-                invoice_id = invoice.id,
+                invoice_id = rand_id,
             )
             
             product = Product.objects.get(id=cart.item.id)
             product.product_quantity -= cart.quantity
             product.save()  
-        
+        invoice = OrderItem.objects.create(
+                user=request.user,
+                order=orders,
+                invoice_id=rand_id,
+                product= lst['product'],
+                product_name=lst['product_name'],
+                price=lst['price'],
+                quantity=lst['quantity'],
+            )
+        invoice.save() 
+        invoice.order= orders
+        invoice.save()
         orders.save() 
         
         cleared = clear_cart(request) 
@@ -178,7 +186,6 @@ def orders(request):
         'total_orders':orders.count()
     }
     return render(request, 'order.html',context)
-
 
 
 @login_required
@@ -198,9 +205,9 @@ def checkout(request):
 
     return render(request, 'checkout.html', context) 
 
-def invoice(request,order_id):
+def invoice(request,invoice_id):
     
-    order_item =  OrderItem.objects.select_related('order').get(order__user=request.user,id=order_id)
+    order_item =  OrderItem.objects.select_related('order').get(user=request.user,invoice_id=invoice_id)
 
     products = order_item.product
     names = order_item.product_name
@@ -217,7 +224,7 @@ def invoice(request,order_id):
         "total" :sum(total),
         "shipping" :99,
         "issue":order_item.order.created_at,
-        "invoice_id":order_item.order.id,
+        "invoice_id":invoice_id,
 
     }
     return render(request, "invoice.html", context )
@@ -231,3 +238,8 @@ def contact(request):
 
 def custom_404(request, exception):
     return render(request, '404.html',status=404)
+
+
+# helper functions
+def gen_rand():
+    return random.randint(100000,999999)
