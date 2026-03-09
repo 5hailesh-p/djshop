@@ -57,7 +57,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
-        return str(self.id) +" " + str(self.product_name[:10])
+        return str(f"{self.id}  X {self.product_name[:10]}  X {self.product_quantity}")
 
 
 class Cart(models.Model):
@@ -72,17 +72,32 @@ class Cart(models.Model):
 
 class Order(models.Model):
     order_stat ={
-        'delivered':'delivered',
+        'ordered':'ordered',
         'shipped':'shipped',
-        'canceled':'canceled'
+        'delivered':'delivered',
+        'canceled':'canceled',
     }
     user = models.ForeignKey(User,  related_name="order", on_delete=models.CASCADE)
     item = models.ForeignKey(Product, on_delete=models.CASCADE)  
     price = models.IntegerField()  
     paid_amt = models.IntegerField()  
-    order_status = models.CharField(max_length=254,choices=order_stat)  
+    order_status = models.CharField(max_length=254,choices=order_stat, default=order_stat['ordered'])  
     quantity = models.PositiveIntegerField(default=1) 
+    invoice_id = models.IntegerField(default=0, null=True)  
     created_at = models.DateTimeField(null=True ,default=datetime.now())
 
     def __str__(self):
         return  str(f"{self.user} X {self.item.id}" )
+
+
+class OrderItem(models.Model):
+    user = models.ForeignKey(User,  related_name="order_items", on_delete=models.CASCADE)
+    order = models.ForeignKey(Order,on_delete=models.CASCADE) 
+    product=  models.JSONField(default=0,null=True)
+    product_name = models.JSONField(default=0,null=True)
+    price = models.JSONField(default=0,null=True)
+    quantity = models.JSONField(default=0,null=True)
+
+    def __str__(self):
+        return f" {self.user}  X {self.id}"
+    

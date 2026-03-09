@@ -571,7 +571,7 @@
 
                                 <li>
                                     <h4>Shipping</h4>
-                                    <h4 class="price">{{site_settings.currency}} {{shipping}}</h4>
+                                    <h4 class="price">{{site_settings.currency}} {{shipping|default:"00"}}</h4>
                                 </li>
 
                                 <li>
@@ -583,32 +583,13 @@
 
                                 <li class="list-total">
                                     <h4>Total </h4>
-                                    <h4 class="price">{{site_settings.currency}} {{sub_total|add:shipping}}</h4>
+                                    <h4 class="price">{{site_settings.currency}}  {{sub_total|add:shipping}}</h4>
                                 </li>
                             </ul>
                         </div>
 
-                        <div class="checkout-offer">
-                            <div class="offer-title">
-                                <div class="offer-icon">
-                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/inner-page/offer.svg" class="img-fluid" alt="">
-                                </div>
-                                <div class="offer-name">
-                                    <h6>Available Offers</h6>
-                                </div>
-                            </div>
-
-                            <ul class="offer-detail">
-                                <li>
-                                    <p>Combo: BB Royal Almond/Badam Californian, Extra Bold 100 gm...</p>
-                                </li>
-                                <li>
-                                    <p>combo: Royal Cashew Californian, Extra Bold 100 gm + BB Royal Honey 500 gm</p>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <button class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold">Place Order</button>
+                         {% csrf_token %}
+                        <button  class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold place {% if carts|length == 0 %}disabled{% endif %}" >Place Order</button>
                     </div>
                 </div>
             </div>
@@ -620,5 +601,31 @@
 {% endblock body %}
 
 {% block js %}
- 
+ <script>
+    $('.place').on('click',function(){
+        $(this).text("placing Order...")
+        let formData = {
+            'sub_total': {{sub_total}},
+            'shipping': {{shipping}},
+        }
+
+        $.ajax({
+            type:'POST',
+            headers:{'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
+            type:'POST',
+            url:'{% url "orders" %}',
+            data:formData,
+            success:function(response){
+                console.log(response)
+            },
+            error:function(err){
+                console.log('some error occured ')
+                //location.href = "{% url 'home' %}"
+            }
+        }).done(function(){
+            //location.href = "{% url 'orders' %}"
+        })
+
+    })
+ </script>
 {% endblock js %}

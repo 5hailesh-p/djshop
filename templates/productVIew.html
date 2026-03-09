@@ -99,10 +99,20 @@
                                         <span class="review">23 Customer Review</span>
                                     </div>
                                 </div>
-
+                                <div class="mt-2">
+                                {% if product.product_quantity <= 9 %}
+                                    {% if product.product_quantity == 0 %}
+                                    <b class="text-danger "> No Stock left </b>
+                                    {% else %}
+                                    <b class="text-danger "> Only {{product.product_quantity}} Stock left </b>
+                                    {% endif %}
+                                {% else %}
+                                    <b class="theme-color fs-5 "> In Stock </b>
+                                {% endif %}
+                                </div>
+                                
                                 <div class="product-contain">
-                                    <p>{{product.product_desc}}
-                                    </p>
+                                    <p>{{product.product_desc}} </p>
                                 </div>
                             {% if product.product_quantity > 0 %}
                                 <form action="{% url "add_to_cart" %}" method="post" >
@@ -167,8 +177,15 @@
 {% block js %}
 
  <script>
+let max_item = parseInt(
+    {% if product.product_quantity <= 9 %}
+    {{ product.product_quantity }}
+    {% else %}
+    9
+    {% endif %}
+    );
  $('.qty-right-plus').click(function () {
-     if ($(this).prev().val() < 9) {
+     if ($(this).prev().val() < max_item) {
          $(this).prev().val(+$(this).prev().val() + 1);
      } 
      

@@ -1,11 +1,12 @@
 from django.shortcuts import render ,redirect
-from .models import Product,Cart, Order
+from .models import Product,Cart, Order,OrderItem
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse,HttpResponse
 from django.contrib import messages
 
 # Create your views here.
+
 # @login_required
 def home(request): 
     fname = None
@@ -73,17 +74,11 @@ def add_to_cart(request):
     
     if not created:
         cart_item.quantity += product_quantity
-        cart_item.save()
-    cart_count = Cart.objects.filter(user= request.user).count()
-
-    # print(product)
-    messages.success(request,"Added to cart ")
-    # return JsonResponse({
-    #     'success':True,
-    #     'cart_count':cart_count
-    # })
-
+        cart_item.save() 
+ 
+    messages.success(request,"Added to cart ") 
     return cart(request)
+
 @login_required
 def remove_from_cart(request,prod_id):
     cart_item = Cart.objects.get(user=request.user,item=prod_id)
@@ -121,14 +116,63 @@ def product_by_id(request,pid):
     }
     return render(request, 'productVIew.html',context)
 
+def clear_cart(request):
+     
+    Cart.objects.filter(user=request.user).delete()
+    return True
+    
 # order list 
 @login_required
 def orders(request):
+    orders =  Order.objects.filter(user=request.user).order_by('created_at')
     if request.method == 'POST':
-        carts = Cart.objects.filter(user=request.user)
+        sub_total = int(request.POST.get('sub_total'))
+        shipping = int(request.POST.get('shipping'))
+
+        carts = Cart.objects.select_related('item').filter(user=request.user)
+        lst = {
+            "product":[],
+            "product_name":[],
+            "price":[],
+            "quantity":[],
+        }
+        invoice = OrderItem.objects.create(
+                user=request.user,
+                order=orders,
+                product= lst['product'],
+                product_name=lst['product_name'],
+                price=lst['price'],
+                quantity=lst['quantity'],
+            )
+        invoice.save() 
+        for cart in carts: 
+          
+            lst['product'].append(cart.item.id)
+            lst['product_name'].append(cart.item.product_name)
+            lst['price'].append(cart.item.price)
+            lst['quantity'].append(cart.quantity)
+           
+            orders =  Order.objects.create(
+                user=request.user,
+                item=cart.item,
+                price=cart.item.price,
+                paid_amt=sub_total+shipping,
+                quantity=cart.quantity, 
+                invoice_id = invoice.id,
+            )
+            
+            product = Product.objects.get(id=cart.item.id)
+            product.product_quantity -= cart.quantity
+            product.save()  
         
-    orders =  Order.objects.filter(user=request.user)
-    
+        orders.save() 
+        
+        cleared = clear_cart(request) 
+        return JsonResponse({
+            'success':True,
+            'cart-cleared':cleared,
+        })
+
     context = {
         'orders' : orders,
         'total_orders':orders.count()
@@ -140,7 +184,7 @@ def orders(request):
 @login_required
 def checkout(request):
     carts = Cart.objects.select_related('item').filter(user= request.user)
-    shipping, sub_total = 99, 0
+    shipping, sub_total = 99 if carts.__len__() > 0 else 00 , 0
  
     for cart in carts:
         cart.total_price = cart.item.price * cart.quantity
@@ -154,6 +198,31 @@ def checkout(request):
 
     return render(request, 'checkout.html', context) 
 
+def invoice(request,order_id):
+    
+    order_item =  OrderItem.objects.select_related('order').get(order__user=request.user,id=order_id)
+
+    products = order_item.product
+    names = order_item.product_name
+    prices = order_item.price
+    quantities = order_item.quantity
+
+    items = zip(products, names, prices, quantities)
+
+    total = [p* q for p,q in zip(prices,quantities)]
+
+ 
+    context = { 
+        "carts" :items,
+        "total" :sum(total),
+        "shipping" :99,
+        "issue":order_item.order.created_at,
+        "invoice_id":order_item.order.id,
+
+    }
+    return render(request, "invoice.html", context )
+
+ 
 
 def contact(request): 
     return render(request, 'contact.html')
