@@ -275,31 +275,31 @@
     <div class="mobile-menu d-md-none d-block mobile-cart">
         <ul>
             <li class="active">
-                <a href="{% url "home" %}">
-                    <i class="iconly-Home icli"></i>
+                <a href="{% url "home" %}" class="text-light">
+                    <i class="fa-solid fa-home"></i>
                     <span>Home</span>
                 </a>
             </li>
 
             <li class="mobile-category">
-                <a href="javascript:void(0)">
-                    <i class="iconly-Category icli js-link"></i>
-                    <span>Category</span>
+                <a href="{% url 'products' %}" class="text-light">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span>Product</span>
                 </a>
             </li>
 
             <li>
-                <a href="#" class="search-box">
-                    <i class="iconly-Search icli"></i>
-                    <span>Search</span>
+                <a href="{% url 'orders' %}" class="text-light"  >
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Orders</span>
                 </a>
             </li>
 
            
 
             <li>
-                <a href="{% url 'cart' %}">
-                    <i class="iconly-Bag-2 icli fly-cate"></i>
+                <a href="{% url 'cart' %}" class="text-light">
+                    <i class="fa-solid fa-shopping-cart"></i>
                     <span>Cart</span>
                 </a>
             </li>
