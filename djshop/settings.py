@@ -137,7 +137,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Optional but recommended: compressed + versioned static files
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-MEDIA_URL = '/media/'
+
+DOMAIN = "djshop.onrender.com"
+# MEDIA_URL = '/media/'
+MEDIA_URL = f"https://{DOMAIN}/media/"
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # log urls 
