@@ -1341,8 +1341,9 @@ $(document).on('click','.add-to-cart-btn',function(){
             alert('some went wrong ')
         }
 
-    });
-    this.innerHTML= "added"
+    }).done(()=>{ 
+         this.innerHTML= "added"
+    }); 
 });
 </script>
 

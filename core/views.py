@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse,HttpResponse
 from django.contrib import messages
+from django.template.loader import render_to_string
+ 
 import random
 # Create your views here.
 
@@ -60,8 +62,11 @@ def cart(request):
         cart.total_price = cart.item.price * cart.quantity
  
     return render(request, 'cart.html',{'carts':carts,'fname':fname})
+
+@login_required
 @require_POST
 def add_to_cart(request):
+
     if request.method=='POST':
         product_id= request.POST.get('product_id')
         product_quantity= int(request.POST.get('product_quantity',1)) 
@@ -205,6 +210,7 @@ def checkout(request):
 
     return render(request, 'checkout.html', context) 
 
+@login_required
 def invoice(request,invoice_id):
     
     order_item =  OrderItem.objects.select_related('order').get(user=request.user,invoice_id=invoice_id)
@@ -228,6 +234,40 @@ def invoice(request,invoice_id):
 
     }
     return render(request, "invoice.html", context )
+
+# @login_required
+# def invoice_pdf(request,invoice_id):
+    
+#     order_item =  OrderItem.objects.select_related('order').get(user=request.user,invoice_id=invoice_id)
+
+#     products = order_item.product
+#     names = order_item.product_name
+#     prices = order_item.price
+#     quantities = order_item.quantity
+
+#     items = zip(products, names, prices, quantities)
+
+#     total = [p* q for p,q in zip(prices,quantities)]
+
+ 
+#     context = { 
+#         "carts" :items,
+#         "total" :sum(total),
+#         "shipping" :99,
+#         "issue":order_item.order.created_at,
+#         "invoice_id":invoice_id,
+
+#     }
+#     html_string =  render_to_string("invoice.html", context )
+#     response = HttpResponse(content_type="application/pdf")
+#     response['Content-Disposition'] = f'attachment;filename="invoice{invoice_id}.pdf"'
+#     # HTML(
+#     #     string=html_string,
+#     #     base_url=request.build_absolute_uri(),
+
+#     # ).write_pdf(response)
+#     # return render(request, "invoice.html", context )
+
 
  
 
