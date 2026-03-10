@@ -27,7 +27,7 @@ load_dotenv(BASE_DIR / '.env') # added manually
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 # DEBUG = os.getenv("DJANGO_DEBUG")
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS","127.0.0.1").split(",")
@@ -139,8 +139,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 DOMAIN = "djshop.onrender.com"
-# MEDIA_URL = '/media/'
-MEDIA_URL = f"https://{DOMAIN}/media/"
+MEDIA_URL = '/media/'
+# MEDIA_URL = f"https://{DOMAIN}/media/"
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # log urls 
