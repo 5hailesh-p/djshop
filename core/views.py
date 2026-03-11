@@ -108,7 +108,7 @@ def cart_update_qnt(request):
 
 # products 
 
-@login_required
+# @login_required
 def product_by_id(request,pid):
     product =  Product.objects.get(id=pid)  
     m_price , price = 20 , product.price
@@ -141,11 +141,14 @@ def orders(request):
             "price":[],
             "quantity":[],
         }
-        rand_id = gen_rand()
-        inv = OrderItem.objects.filter(invoice_id=rand_id)
-        if inv :
-            print('matched')
+
+        while True:
             rand_id = gen_rand()
+            inv = OrderItem.objects.filter(invoice_id=rand_id)
+            if not inv :
+                # print('matched')
+                # rand_id = gen_rand()
+                break
         
         for cart in carts: 
           
@@ -212,7 +215,7 @@ def checkout(request):
 
 @login_required
 def invoice(request,invoice_id):
-    
+     
     order_item =  OrderItem.objects.select_related('order').get(user=request.user,invoice_id=invoice_id)
 
     products = order_item.product

@@ -16,6 +16,19 @@
 
     <!-- Theme css -->
     <link rel="stylesheet" type="text/css" href="{% static ''%}css/invoice.css">
+    <style>
+        @media (max-width:574px) {
+            .custom-none{
+                display: none;
+            }
+            .tfoot-r{
+                display: flex;
+                flex-direction: column-reverse;
+                justify-content: start !important;
+            }
+            
+        }
+    </style>
 </head>
 
 <body class="bg-light">
@@ -53,10 +66,10 @@
                                                     <ul>
                                                         <li class="theme-color">Issue Date : <span
                                                                 class="text-content">{{issue }}</span></li>
-                                                        <li class="theme-color">Order No : <span
+                                                        <li class="theme-color">Invoice No : <span
                                                                 class="text-content">{{invoice_id}}</span></li>
                                                         <li class="theme-color">Email : <span
-                                                                class="text-content">user@gmail.com</span></li>
+                                                                class="text-content">{{site_settings.email}}</span></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -65,30 +78,30 @@
                                 </div>
                             </div>
 
-                            <div class="body-date">
+                            {% comment %} <div class="body-date">
                                 <ul>
                                     <li class="text-content"><span class="theme-color">Issue Date : </span> {{issue }}</li>
-                                    <li class="text-content"><span class="theme-color">Invoice No : </span> 378407</li>
-                                    <li class="text-content"><span class="theme-color">Email : </span> User@gmail.com
+                                    <li class="text-content"><span class="theme-color">Invoice No : </span> {{ invoice_id}} </li>
+                                    <li class="text-content"><span class="theme-color">Email : </span> {{site_settings.email}}
                                     </li>
                                 </ul>
-                            </div>
+                            </div> {% endcomment %}
                            
                             <div class="table-responsive table-borderless">
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
+                                            <th class="custom-none">No.</th>
                                             <th class="text-start">Item detail</th>
                                             <th>Qty</th>
                                             <th>Price</th>
-                                            <th>Amout</th>
+                                            <th class="custom-none">Amout</th>
                                         </tr>
                                     </thead>
                                     <tbody> 
                                         {% for product_id, name, price, qty in carts  %}
                                         <tr>
-                                            <td class="text-content">{{forloop.counter}}</td>
+                                            <td class="text-content custom-none">{{forloop.counter}}</td>
                                             <td>
                                                 <ul class="table-details flex-column align-items-baseline ">
                                                     <li class="text-title d-block">{{name|truncatewords:'2'}}</li>
@@ -97,23 +110,23 @@
                                             </td>
                                             <td>{{qty}}</td>
                                             <td>{{site_settings.currency}} {{price}}</td>
-                                            <td>{{site_settings.currency}}  {% widthratio price 1 qty %}  </td>
+                                            <td class="custom-none">{{site_settings.currency}}  {% widthratio price 1 qty %}  </td>
                                         </tr>
                                         {% endfor %}
                                     
                                     </tbody>
                                     <tfoot>
-                                        <tr>
+                                        <tr class="tfoot-r mt-3">
                                             <td colspan="2">
                                                 <ul class="table-price justify-content-start">
-                                                    <li>SHIPPING</li>
-                                                    <li class="theme-color"> {{site_settings.currency}} {{shipping}}</li>
+                                                    <li>GRAND TOTAL</li>
+                                                    <li class="theme-color"> {{site_settings.currency}} {{total|add:shipping}}</li>
                                                 </ul>
                                             </td>
                                             <td colspan="3">
-                                                <ul class="table-price">
-                                                    <li>GRAND TOTAL</li>
-                                                    <li class="theme-color"> {{site_settings.currency}} {{total|add:shipping}}</li>
+                                                <ul class="table-price justify-content-start justify-content-sm-end">
+                                                    <li>SHIPPING</li>
+                                                    <li class="theme-color"> {{site_settings.currency}} {{shipping}}</li>
                                                 </ul>
                                             </td>
                                         </tr>
@@ -122,12 +135,12 @@
                             </div>
                         </div>
 
-                        <div class="invoice-footer pt-0">
+                        {% comment %} <div class="invoice-footer pt-0">
                             <div class="button-group">
                                 <ul>
                                     <li>
                                         <button class="btn theme-bg-color text-white rounded"
-                                            onclick="window.print();">Export As PDF</button>
+                                            onclick="capture();">ScreenShot</button>
                                     </li>
                                     <li>
                                         <button class="btn text-white print-button rounded ms-2"
@@ -135,12 +148,52 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
+                    </div>
+                     <div class="button-group mt-4 d-flex justify-content-between align-items-center">
+                        
+                        <button class="btn theme-bg-color text-white rounded"
+                            onclick="capture();">ScreenShot</button>
+                        
+                        <button class="btn theme-bg-color text-white print-button rounded ms-2"
+                            onclick="downloadPDF();">Download Pdf</button>
+                         
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+    function capture(){
+        html2canvas(document.querySelector('.invoice-wrapper')).then(canvas => {
+            let link = document.createElement("a");
+            link.download = "invoide{{invoice_id}}.png";
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    }
+
+    function downloadPDF() {
+    const element = document.querySelector(".invoice-wrapper");
+
+    html2canvas(element).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        const imgWidth = 190;
+        const pageHeight = 295;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+
+        pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+        pdf.save("screenshot{{invoice_id}}.pdf");
+    });
+}
+</script>
 
 </body>
 
