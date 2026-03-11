@@ -1,5 +1,5 @@
 from django.shortcuts import render ,redirect
-from .models import Product,Cart, Order,OrderItem
+from .models import Product,Cart, Order,OrderItem,Subscribe,Contact
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse,HttpResponse
@@ -269,10 +269,44 @@ def invoice(request,invoice_id):
 #     # return render(request, "invoice.html", context )
 
 
- 
+@require_POST
+def subscribe(request): 
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        added = Subscribe.objects.create(
+            email=email,
+        )
 
-def contact(request): 
+        return JsonResponse({
+            'success':True,
+        })
+
+
+def contact(request):
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        cont = Contact.objects.create(
+            name= name,
+            phone= phone,
+            email= email,
+            subject= subject,
+            message= message,
+
+        )
+        if cont :
+            messages.success(request,"Successfully Submitted")
+        else:
+            messages.error(request,"Invalid details")
+
+
     return render(request, 'contact.html')
+
 
 
 

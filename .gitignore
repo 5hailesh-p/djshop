@@ -5,3 +5,6 @@ plan.txt
 
 # VSCode settings (optional)
 .vscode/
+
+#sqlite
+db.sqlite3

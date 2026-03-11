@@ -8,9 +8,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fastkart">
-    <meta name="keywords" content="Fastkart">
-    <meta name="author" content="Fastkart">
+    <meta name="description" content="{{site_settings.name}}">
+    <meta name="keywords" content="{{site_settings.name}}">
+    <meta name="author" content="{{site_settings.name}}">
     <link rel="icon" href="{% static ''%}images/favicon/1.png" type="image/x-icon">
     <title>{% block title %} {% endblock title %}</title>
 
@@ -79,7 +79,7 @@
                             <div class="notification-slider">
                                 <div>
                                     <div class="timer-notification">
-                                        <h6><strong class="me-1">Welcome to Fastkart!</strong>Wrap new offers/gift
+                                        <h6><strong class="me-1">Welcome to {{site_settings.name}}!</strong>Wrap new offers/gift
                                             every single day on Weekends.<strong class="ms-1">New Coupon Code: Fast024
                                             </strong>
 
@@ -380,7 +380,7 @@
                                     </li>
                                     <li>
                                         <i data-feather="mail"></i>
-                                        <a href="javascript:void(0)">support@fastkart.com</a>
+                                        <a href="javascript:void(0)">{{site_settings.email}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -486,7 +486,7 @@
                                         <i data-feather="mail"></i>
                                         <div class="contact-number">
                                             <h6 class="text-content">Email Address :</h6>
-                                            <h5>fastkart@hotmail.com</h5>
+                                            <h5>{{site_settings.email}}</h5>
                                         </div>
                                     </div>
                                 </li>
@@ -516,7 +516,7 @@
 
             <div class="sub-footer section-small-space">
                 <div class="reserve">
-                    <h6 class="text-content">©2022 Fastkart All rights reserved</h6>
+                    <h6 class="text-content">©2026 {{site_settings.name}} All rights reserved</h6>
                 </div>
 
                 <div class="payment">

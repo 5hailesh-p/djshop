@@ -102,3 +102,10 @@ class OrderItem(models.Model):
     def __str__(self):
         return f" {self.user}  X {self.id}"
     
+
+class Subscribe(models.Model): 
+    email = models.EmailField() 
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
